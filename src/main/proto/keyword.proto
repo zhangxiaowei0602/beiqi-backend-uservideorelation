@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "KeywordProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+//搜索关键词
+message Keyword {
+    //词条
+    string keyword = 1;
+    //对应结果数，取最近一次搜索的结果数
+    int32 result_num = 2;
+    //搜索时间，个人搜索记录用到
+    int32 operation_timestamp = 3;
+}

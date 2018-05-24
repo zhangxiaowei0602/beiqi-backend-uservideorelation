@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "VideoProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+enum VideoLabel {
+    CHANNEL = 0;  //剧集
+    EPISODE = 1;  //主题列表
+    VIDEO = 2;    //视频
+}
+
+//视频信息
+message Video {
+    //剧集code
+    string ccode = 1;
+    //主题列表code
+    string ecode = 2;
+    //视频code
+    string vcode = 3;
+    //到底是剧集、主题列表、视频
+    VideoLabel video_label = 4;
+    //标题
+    string title = 5;
+    //缩略图url
+    string pic_url = 6;
+    //时长
+    int32 duration = 7;
+    //片头时长
+    int32 head_duration = 8;
+    //片尾时长
+    int32 tail_duration = 9;
+    //类别，如卡通，综艺，纪录片
+    string type = 10;
+    //收藏时间，点赞时间，只在个人历史记录里用到
+    int32 operation_timestamp = 11;
+}

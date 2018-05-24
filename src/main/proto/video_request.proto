@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "common_request.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "VideoRequestProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+//获取视频信息 request
+message VideoRequest {
+    //剧集code
+    string ccode = 1;
+    //主题列表code
+    string ecode = 2;
+    //视频code
+    string vcode = 3;
+    //基础request包
+    CommonRequest common_request = 4;
+}

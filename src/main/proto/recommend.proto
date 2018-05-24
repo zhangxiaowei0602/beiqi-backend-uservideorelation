@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+import "common_request.proto";
+import "video_request.proto";
+import "video.proto";
+import "keyword.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "RecommendProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+// 视频推荐相关接口
+service Recommend {
+    //首页视频推荐
+    rpc MainRecommend (CommonRequest) returns (RecommendVideoReply) {}
+    //搜索页获取热门搜索词
+    rpc KeywordRecommend (CommonRequest) returns (HotKeywordReply) {}
+    //搜索页获取热门视频，未搜索、无结果时都会用到
+    rpc HotVideoRecommend (KeywordRequest) returns (RecommendVideoReply) {}
+    //播放时获取相关视频
+    rpc RelatedVideoRecommend (VideoRequest) returns (RecommendVideoReply) {}
+}
+
+//关键词 request，关键词可留空 - 表示未搜索
+message KeywordRequest {
+    //词条，可留空
+    string keyword = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//视频推荐 response
+message RecommendVideoReply {
+    //视频结果集
+    repeated Video video_list = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}
+
+//热门搜索词 response
+message HotKeywordReply {
+    //热门词条
+    repeated Keyword keyword_list = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}

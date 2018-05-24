@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yelixian.beiqi.dao.BeiqiDAO">
+	<select id="getUserinfoByUcode" parameterType="string" resultType="hashmap">
+		SELECT nick, avatar, phone_number, gender, skip_head_tail_enabled, membership_last_day FROM user WHERE ucode=#{ucode}
+	</select>
+	<!--
+	<select id="getOrderById" parameterType="int" resultType="hashmap">
+		SELECT id, long_id, account_id, need_pay, payway, created_datetime, status, payurl FROM `order` WHERE id=#{id}
+	</select>
+	<select id="getStatusByTradeNo" parameterType="string" resultType="int">
+		SELECT status FROM `order` WHERE long_id=#{tradeNo}
+	</select>
+	<select id="getOrderByTradeNo" parameterType="string" resultType="hashmap">
+		SELECT id, long_id, account_id, need_pay, payway, created_datetime, status, payurl FROM `order` WHERE long_id=#{tradeNo}
+	</select>
+	<update id="updatePayURLById" parameterType="hashmap">
+		UPDATE `order` SET payurl=#{payurl}, payurl_generated_datetime=now() WHERE id=#{id}
+	</update>
+	<update id="updateOnReturn" parameterType="hashmap">
+		UPDATE `order` SET return_parameters=#{return_parameters}, return_status=#{return_status}, return_datetime=now() WHERE long_id=#{long_id}
+	</update>
+	<update id="updateOnNotify" parameterType="hashmap">
+		UPDATE `order` SET
+			notify_parameters_archive=IF(CHAR_LENGTH(notify_parameters_archive)=0, #{notify_parameters}, CONCAT_WS(' | ', notify_parameters_archive, #{notify_parameters})),
+			notify_parameters=#{notify_parameters},
+			notify_status_archive=IF(CHAR_LENGTH(notify_status_archive)=0, #{notify_status}, CONCAT_WS(' | ', notify_status_archive, #{notify_status})),
+			notify_status=#{notify_status},
+			notify_datetime_archive=IF(CHAR_LENGTH(notify_datetime_archive)=0, now(), CONCAT_WS(' | ', notify_datetime_archive, now())),
+			notify_datetime=now()
+		WHERE long_id=#{long_id}
+	</update>
+	<update id="updateTradeStatus" parameterType="hashmap">
+		UPDATE `order` SET status=#{status}, finished_datetime=now(), pay_amount=IF(#{status}=2, need_pay, 0) WHERE long_id=#{long_id}
+	</update>
+	-->
+</mapper>

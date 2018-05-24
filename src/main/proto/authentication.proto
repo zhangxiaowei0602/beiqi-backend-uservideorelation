@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+import "common_request.proto";
+import "user_info.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "AuthenticationProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+// 用户认证相关接口，token、注册、登录、用户信息、验证码等
+service Authentication {
+    //token 检验、更新
+    rpc CheckToken (CommonRequest) returns (TokenReply) {}
+    //通过手机号获取验证码/动态码
+    rpc GetVerificationCode (VerificationCodeRequest) returns (VerificationCodeReply) {}
+    //注册
+    rpc Register (RegisterRequest) returns (TokenReply) {}
+    //登录
+    rpc Login (LoginRequest) returns (TokenReply) {}
+    //获取用户基本信息
+    rpc GetUserinfo (CommonRequest) returns (UserinfoReply) {}
+}
+
+//token检验、更新后的response包
+message TokenReply {
+    //新token
+    string token = 1;
+    //新token 过期时间
+    int32 expiry_timestamp = 2;
+    //状态，如老token无效、老token有效继续使用、老token有效但换新
+    int32 status = 3;
+    //用户信息包
+    UserInfo user_info = 4;
+    //错误码
+    int32 err_code = 5;
+    //错误信息
+    string err_message = 6;
+}
+
+//验证码/动态码 request
+message VerificationCodeRequest {
+    //电话号码
+    string phone_number = 1;
+    //基础request包
+    CommonRequest token_request = 2;
+}
+
+//验证码/动态码 response
+message VerificationCodeReply {
+    //处理状态，1 - 成功，0 - 失败
+    bool status = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}
+
+//注册 request
+message RegisterRequest {
+    //电话号码
+    string phone_number = 1;
+    //验证码
+    string verification_code = 2;
+    //密码
+    string password = 3;
+    //每天最大观看时间
+    int32 max_watch_point = 4;
+    //基础request包
+    CommonRequest token_request = 5;
+}
+
+//登录方式，0 - 动态码，1 - 密码
+enum LoginType {
+    VERIFICATION_CODE = 0;
+    PASSWORD = 1;
+}
+
+//登录 request
+message LoginRequest {
+    //电话号码
+    string phone_number = 1;
+    //登录方式，动态码登录时只需传入动态码，密码留空；密码登录时只需传入密码，动态码留空
+    LoginType login_type = 2;
+    //验证码
+    string verification_code = 3;
+    //密码
+    string password = 4;
+    //基础request包
+    CommonRequest token_request = 5;
+}
+
+// 用户基本信息response
+message UserinfoReply {
+    //用户信息包
+    UserInfo user_info = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}

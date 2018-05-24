@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "WatchModeProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+//清晰度
+enum Resolution {
+    //极速
+    R240P = 0;
+    //流畅
+    R360P = 1;
+    //高清
+    R480P = 2;
+    //超清
+    R720P = 3;
+    //蓝光
+    R1080P = 4;
+}
+
+//观看模式
+message WatchMode {
+    //是否音频模式
+    bool sound_only = 1;
+    //是否投影到电视
+    bool on_tv = 2;
+    //清晰度
+    Resolution resolution = 3;
+}

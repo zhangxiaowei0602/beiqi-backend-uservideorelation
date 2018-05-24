@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+import "common_request.proto";
+import "status_reply.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "BehaviorReportProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+//用户行为上报相关接口
+service Behavior {
+    //上报用户行为
+    rpc ReportBehavior (stream BehaviorObj) returns (stream ReportReply) {}
+}
+
+//用户行为上报对象
+message BehaviorObj {
+    //全局唯一id
+    string code = 1;
+    //内容
+    string content = 2;
+    //类型，可作为短标题使用
+    string type = 3;
+    //消息生成时间
+    int32 created_timestamp = 4;
+    //基础request包
+    CommonRequest token_request = 5;
+}
+
+//每条消息处理的response，前期以接收、验证完整性为主
+message ReportReply {
+    //消息code
+    string code = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}

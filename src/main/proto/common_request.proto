@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+import "env_parameter.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "CommonRequestProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+//大多数request都会包含这3项，抽出来作为公共基础类
+message CommonRequest {
+    //用户code
+    string ucode = 1;
+    //当前token，有可能为空
+    string token = 2;
+    //环境参数包
+    EnvParameter env_parameter = 3;
+}

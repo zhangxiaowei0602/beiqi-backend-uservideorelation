@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+import "common_request.proto";
+import "status_reply.proto";
+import "user_info.proto";
+import "video.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "UserSettingProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+// 用户中心页相关接口
+service UserSetting {
+    //修改头像
+    rpc ModifyAvatar (ModifyAvatarRequest) returns (StatusReply) {}
+    //修改昵称
+    rpc ModifyNick (ModifyNickRequest) returns (StatusReply) {}
+    //修改性别
+    rpc ModifyGender (ModifyGenderRequest) returns (StatusReply) {}
+    //修改每天最长观看时间
+    rpc ModifyMaxWatchPoint (ModifyMaxWatchPointRequest) returns (StatusReply) {}
+    //获取儿童列表
+    rpc GetKidlist (CommonRequest) returns (KidlistReply) {}
+    //增加儿童
+    rpc AddKid (SingleKidRequest) returns (StatusReply) {}
+    //修改儿童信息
+    rpc ModifyKid (SingleKidRequest) returns (StatusReply) {}
+    //删除儿童
+    rpc DeleteKid (KidIdRequest) returns (StatusReply) {}
+    //设置为主观看儿童
+    rpc SetMainKid (KidIdRequest) returns (StatusReply) {}
+    //设置自动跳过片头片尾
+    rpc SetAutoSkip (AutoSkipRequest) returns (StatusReply) {}
+    //获取黑名单
+    rpc GetBlacklist (CommonRequest) returns (BlacklistReply) {}
+    //移除黑名单
+    rpc RemoveBlacklist (BlacklistRequest) returns (StatusReply) {}
+    //检查最新版本
+    rpc CheckAppVersion (AppVersionRequest) returns (AppVersionReply) {}
+    //意见反馈
+    rpc Feedback (FeedbackRequest) returns (StatusReply) {}
+}
+
+//修改头像 request
+message ModifyAvatarRequest {
+    //头像图片url
+    string pic_url = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//修改昵称 request
+message ModifyNickRequest {
+    //新昵称
+    string nick = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//修改性别 request
+message ModifyGenderRequest {
+    //性别
+    Gender gender = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//修改每天最长观看时间
+message ModifyMaxWatchPointRequest {
+    //最长观看时间，每半小时为一个point
+    int32 max_watch_point = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//儿童
+message Kid {
+    //全局唯一id
+    int32 id = 1;
+    //头像图片url
+    string pic_url = 2;
+    //小朋友名字/昵称
+    string nick = 3;
+    //生日
+    string birthday = 4;
+    //性别
+    Gender gender = 5;
+}
+
+//获取儿童列表 response
+message KidlistReply {
+    //儿童列表
+    repeated Kid kid_list = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}
+
+//新增或修改儿童信息 request
+message SingleKidRequest {
+    //儿童信息
+    Kid kid = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//传入儿童ID的request
+message KidIdRequest {
+    //儿童id
+    int32 kid_id = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//设置是否自动跳过片头片尾 request
+message AutoSkipRequest {
+    //是否自动跳过片头片尾
+    bool auto_skip = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//黑名单对象
+message BlackVideo {
+    //全局唯一ID
+    int32 id = 1;
+    //名字
+    string title = 2;
+    //剧集还是视频，只能在两者中选一
+    VideoLabel video_label = 3;
+    //加入黑名单时间
+    int32 operation_timestamp = 4;
+}
+
+//获取黑名单列表 response
+message BlacklistReply {
+    //黑名单列表
+    repeated BlackVideo blacklist = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}
+
+//移除黑名单 request
+message BlacklistRequest {
+    //黑名单ID列表，可批量删除
+    repeated int32 id = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//检查最新版本 request
+message AppVersionRequest {
+    //App当前版本号
+    string current_version = 1;
+    //基础request包
+    CommonRequest common_request = 2;
+}
+
+//检查最新版本 response
+message AppVersionReply {
+    //最新版本号
+    string latest_version = 1;
+    //最新版本下载地址，只针对安卓
+    string download_url = 2;
+    //错误码
+    int32 err_code = 3;
+    //错误信息
+    string err_message = 4;
+}
+
+//意见反馈 request
+message FeedbackRequest {
+    //反馈内容
+    string content = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}

@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+import "common_request.proto";
+import "video_request.proto";
+import "watch_mode.proto";
+import "status_reply.proto";
+import "keyword.proto";
+import "video.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "UserVideoRelationProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+// 用户、视频关系相关接口
+service UserVideoRelation {
+    //获得用户观看、收藏、搜索记录
+    rpc GetUserRecord (CommonRequest) returns (RecordReply) {}
+    //获得用户搜索记录
+    rpc GetUserSearchRecord (CommonRequest) returns (SearchRecordReply) {}
+    //获取单个视频详细信息
+    rpc GetVideoInfo (VideoRequest) returns (VideoReply) {}
+    //视频点赞
+    rpc Like (SingleVideoRequest) returns (StatusReply) {}
+    //视频收藏
+    rpc Favor (SingleVideoRequest) returns (StatusReply) {}
+    //视频取消收藏
+    rpc Unfavor (SingleVideoRequest) returns (StatusReply) {}
+    //举报视频
+    rpc Report (ReportVideoRequest) returns (StatusReply) {}
+    //把视频或剧集加入黑名单
+    rpc AddBlacklist (AddBlacklistRequest) returns (StatusReply) {}
+    //获取剧集信息
+    rpc GetChannelInfo (GetChannelInfoRequest) returns (ChannelReply) {}
+}
+
+//用户观看、收藏、搜索历史记录 response
+message RecordReply {
+    //最近观看视频，去重，最多10条
+    repeated Video watch_list = 1;
+    //最近收藏视频，去重，最多10条
+    repeated Video favor_list = 2;
+    //最近搜索词条，去重，最多10条
+    repeated Keyword keyword_list = 3;
+    //错误码
+    int32 err_code = 4;
+    //错误信息
+    string err_message = 5;
+}
+
+//用户搜索历史记录 response
+message SearchRecordReply {
+    //最近搜索词条，去重，最多10条
+    repeated Keyword keyword_list = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}
+
+//获取视频信息 response
+message VideoReply {
+    //视频信息
+    Video video = 1;
+    //是否在用户的黑名单里
+    bool in_blacklist = 2;
+    //今日观看是否已经超时
+    bool exceed_limit = 3;
+    //错误码
+    int32 err_code = 4;
+    //错误信息
+    string err_message = 5;
+}
+
+//对单个视频进行操作时（如点赞、收藏、举报）提交的request
+message SingleVideoRequest {
+    //视频code
+    string vcode = 1;
+    //进度条位置
+    int32 bar_position = 2;
+    //观看模式
+    WatchMode watch_mode = 3;
+    //基础request包
+    CommonRequest common_request = 4;
+}
+
+//举报视频request
+message ReportVideoRequest {
+    //视频code
+    string vcode = 1;
+    //进度条位置
+    int32 bar_position = 2;
+    //举报原因
+    repeated string reason = 3;
+    //观看模式
+    WatchMode watch_mode = 4;
+    //基础request包
+    CommonRequest common_request = 5;
+}
+
+//加入黑名单request，ccode和vcode里务必只上报一个，上报ccode代表把剧集加入黑名单，上报vcode代表把视频加入黑名单，不要同时上报两者
+message AddBlacklistRequest {
+    //剧集code
+    string ccode = 1;
+    //视频code
+    string vcode = 2;
+    //进度条位置
+    int32 bar_position = 3;
+    //观看模式
+    WatchMode watch_mode = 4;
+    //基础request包
+    CommonRequest common_request = 5;
+}
+
+//获取剧集信息request
+message GetChannelInfoRequest {
+    //进度条位置
+    int32 bar_position = 1;
+    //观看模式
+    WatchMode watch_mode = 2;
+    //基础request包
+    VideoRequest video_request = 3;
+}
+
+//获取剧集信息response
+message ChannelReply {
+    //剧集code
+    string ccode = 1;
+    //剧集名字
+    string title = 2;
+    //缩略图url
+    string pic_url = 3;
+    //简介
+    string description = 4;
+    //作者
+    string author = 5;
+    //出品方
+    string producer = 6;
+    //剧集下所有主题列表
+    repeated Video episode_list = 7;
+    //是否在用户黑名单里
+    bool in_blacklist = 8;
+    //错误码
+    int32 err_code = 9;
+    //错误信息
+    string err_message = 10;
+}

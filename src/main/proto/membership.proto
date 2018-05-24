@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "common_request.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "MembershipProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+//会员交易相关接口
+service Membership {
+    //购买会员
+    rpc Deal (DealRequest) returns (DealReply) {}
+}
+
+//可购买会员种类，1个月、1个季度、半年、1年
+enum MonthCount {
+    //1个月
+    MONTH_1 = 0;
+    //1个季度
+    MONTH_3 = 1;
+    //半年
+    MONTH_6 = 2;
+    //1年
+    MONTH_12 = 3;
+}
+
+//交易通道，目前只支持支付宝、微信
+enum PayWay {
+    //支付宝
+    ALI_PAY = 0;
+    //微信支付
+    WEIXIN_PAY = 1;
+}
+
+//购买会员 request
+message DealRequest {
+    //会员期长度
+    MonthCount month_count = 1;
+    //交易数量
+    int32 count = 2;
+    //交易总额
+    int32 amount = 3;
+    //交易通道
+    PayWay pay_way = 4;
+    //基础request包
+    CommonRequest common_request = 5;
+}
+
+//购买会员 response
+message DealReply {
+    //第三方支付url，供跳出
+    string pay_url = 1;
+    //错误码
+    int32 err_code = 2;
+    //错误信息
+    string err_message = 3;
+}

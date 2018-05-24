@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+import "common_request.proto";
+import "keyword.proto";
+import "video.proto";
+
+option java_multiple_files = true;
+option java_package = "com.yelixian.beiqi.proto";
+option java_outer_classname = "SearchProto";
+option objc_class_prefix = "BQ";
+
+package beiqi;
+
+// 搜索相关接口
+service Search {
+    //视频搜索，结果都是主题列表
+    rpc Search (SearchRequest) returns (SearchReply) {}
+}
+
+//搜索 request
+message SearchRequest {
+    //词条
+    string keyword = 1;
+    //起始点
+    int32 start = 2;
+    //偏移
+    int32 offset = 3;
+    //排序方式
+    string sort = 4;
+    //基础request包
+    CommonRequest common_request = 5;
+}
+
+//搜索 response
+message SearchReply {
+    //词条response包，包含词条、结果数
+    Keyword keyword = 1;
+    //视频结果集
+    repeated Video video_list = 2;
+    //错误码
+    int32 err_code = 3;
+    //错误信息
+    string err_message = 4;
+}
