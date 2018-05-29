@@ -62,14 +62,14 @@ public class UserSettingServiceImpl extends UserSettingGrpc.UserSettingImplBase 
     @Override
     public void getKidlist(CommonRequest req, StreamObserver<KidlistReply> responseObserver) {
         KidlistReply reply = KidlistReply.newBuilder()
-                .setKidList(0, Kid.newBuilder()
+                .addKidList(0, Kid.newBuilder()
                         .setId(1123)
                         .setPicUrl("http://s11.sinaimg.cn/middle/62959db0g889418d988aa&690")
                         .setNick("小飞")
                         .setBirthday("2016-01-30")
                         .setGender(Gender.MALE)
                         .build())
-                .setKidList(1, Kid.newBuilder()
+                .addKidList(1, Kid.newBuilder()
                         .setId(1126)
                         .setPicUrl("http://mvimg2.meitudata.com/55c4ac41a77536545.jpg")
                         .setNick("小飞")
@@ -141,19 +141,19 @@ public class UserSettingServiceImpl extends UserSettingGrpc.UserSettingImplBase 
     @Override
     public void getBlacklist(CommonRequest req, StreamObserver<BlacklistReply> responseObserver) {
         BlacklistReply reply = BlacklistReply.newBuilder()
-                .setBlacklist(0, BlackVideo.newBuilder()
+                .addBlacklist(0, BlackVideo.newBuilder()
                         .setId(3257)
                         .setTitle("超级飞侠")
                         .setVideoLabel(VideoLabel.CHANNEL)
                         .setOperationTimestamp(1524306337) // 2018-04-21 10:25:37
                         .build())
-                .setBlacklist(1, BlackVideo.newBuilder()
+                .addBlacklist(1, BlackVideo.newBuilder()
                         .setId(3269)
                         .setTitle("海绵宝宝 第九季 第11集")
                         .setVideoLabel(VideoLabel.VIDEO)
                         .setOperationTimestamp(1525116798) // 2018-04-30 19:33:18
                         .build())
-                .setBlacklist(2, BlackVideo.newBuilder()
+                .addBlacklist(2, BlackVideo.newBuilder()
                         .setId(3824)
                         .setTitle("熊出没 春日乐园 第42集")
                         .setVideoLabel(VideoLabel.VIDEO)

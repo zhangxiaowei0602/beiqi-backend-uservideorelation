@@ -19,7 +19,7 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
     @Override
     public void getMessageList(CommonRequest req, StreamObserver<MessageListReply> responseObserver) {
         MessageListReply reply = MessageListReply.newBuilder()
-                .setMessageList(0, MessageObj.newBuilder()
+                .addMessageList(0, MessageObj.newBuilder()
                         .setId(1218)
                         .setContent("邀请手机尾号4577的朋友加入贝奇成功，恭喜你们各获得一个月的会员奖励")
                         .setType("会员奖励")
@@ -28,7 +28,7 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
                         .setCreatedTimestamp(BeiqiUtils.getCurrentTimestamp())
                         .setReadTimestamp(0)
                         .build())
-                .setMessageList(1, MessageObj.newBuilder()
+                .addMessageList(1, MessageObj.newBuilder()
                         .setId(1277)
                         .setContent("邀请手机尾号3672的朋友加入贝奇成功，恭喜你们各获得一个月的会员奖励")
                         .setType("会员奖励")
@@ -37,7 +37,7 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
                         .setCreatedTimestamp(BeiqiUtils.getCurrentTimestamp())
                         .setReadTimestamp(0)
                         .build())
-                .setMessageList(2, MessageObj.newBuilder()
+                .addMessageList(2, MessageObj.newBuilder()
                         .setId(1294)
                         .setContent("邀请手机尾号3231的朋友加入贝奇成功，恭喜你们各获得一个月的会员奖励")
                         .setType("会员奖励")
