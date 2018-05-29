@@ -9,7 +9,6 @@ import io.grpc.StatusRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.channels.Channel;
 
 public class TestClient {
     private static final Logger logger = LoggerFactory.getLogger(TestClient.class);
