@@ -80,14 +80,16 @@ message ModifyMaxWatchPointRequest {
 message Kid {
     //全局唯一id
     int32 id = 1;
+    //唯一id
+    int32 uid=2;
     //头像图片url
-    string pic_url = 2;
+    string pic_url = 3;
     //小朋友名字/昵称
-    string nick = 3;
+    string nick = 4;
     //生日
-    string birthday = 4;
+    string birthday = 5;
     //性别
-    Gender gender = 5;
+    Gender gender = 6;
 }
 
 //获取儿童列表 response
@@ -182,4 +184,7 @@ message FeedbackRequest {
     int32 err_code = 2;
     //错误信息
     string err_message = 3;
+
+    //基础request包
+    CommonRequest common_request = 4;
 }
